@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="ระบบสารสนเทศและการเรียนรู้สำหรับนักศึกษา M-DOLE สกร.อำเภอเมืองนครราชสีมา ระดับประถม ม.ต้น ม.ปลาย">
 
-  <!-- Google Fonts: Prompt and Sarabun for professional modern Thai typography -->
+  <!-- Google Fonts: Prompt and Sarabun for Thai typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS Configuration -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -97,7 +97,7 @@
 </head>
 <body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white flex flex-col justify-between p-3 sm:p-6 md:p-8">
 
-  <!-- Alert Banner if not Chrome or inside In-App Browser -->
+  <!-- Browser Alert Banner -->
   <div id="browserWarningBanner" class="hidden max-w-xl mx-auto w-full mb-4 animate-bounce">
     <div class="bg-amber-500 text-white p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 border border-amber-300">
       <div class="flex items-center gap-2.5">
@@ -112,18 +112,17 @@
     </div>
   </div>
 
-  <!-- Main Card Container -->
   <main class="max-w-xl mx-auto w-full glass-card rounded-3xl p-5 sm:p-8 shadow-card border border-white/60 relative overflow-hidden my-auto">
     
-    <!-- Decorative top accent background pattern -->
+    <!-- Decorative background elements -->
     <div class="absolute -top-24 -right-24 w-52 h-52 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-24 -left-24 w-52 h-52 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-    <!-- Header / Organization Branding -->
+    <!-- Header / Organization Branding with Center Logo -->
     <div class="flex items-center justify-center gap-3.5 mb-4 border-b border-slate-100 pb-4">
-      <!-- Organization Logo from user uploaded logo -->
-      <img src="logo สกร.นม.jpg" 
-           alt="ตราสัญลักษณ์ สกร. อำเภอเมืองนครราชสีมา" 
+      <!-- Organization Logo: สกร. อ.เมืองนครราชสีมา -->
+      <img src="https://s.imgz.io/2026/10/03/logo-.a5688da8eb6bd3a4.png" 
+           alt="logo สกร.นม" 
            class="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full shadow-md border-2 border-brand-100 bg-white p-0.5 shrink-0"
            onerror="this.src='https://placehold.co/100x100/1e3a8a/ffffff?text=สกร.นม.'">
       
@@ -140,17 +139,16 @@
       </div>
     </div>
 
-    <!-- App Logo & Title Section -->
     <div class="text-center my-3">
-      <!-- App Icon Image -->
+      <!-- App Logo: ไอคอน M-DOLE -->
       <div class="relative inline-block mx-auto mb-3">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden shadow-glow border-4 border-white mx-auto transform transition duration-300 hover:scale-105">
-          <img src="ไอคอน M-DOLE อนุสาวรีย์ไทยสง่างาม-Photoroom.jpg" 
-               alt="M-DOLE Student App Icon" 
-               class="w-full h-full object-cover"
+        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden shadow-glow border-4 border-white mx-auto transform transition duration-300 hover:scale-105 bg-white flex items-center justify-center p-1">
+          <img src="https://s.imgz.io/2026/10/03/-M-DOLE--Photorooma128dae2721f3ccf.png" 
+               alt="ไอคอน M DOLE อนุสาวรีย์ไทยสง่างาม Photoroom" 
+               class="w-full h-full object-contain"
                onerror="this.src='https://placehold.co/150x150/1e40af/ffffff?text=M-DOLE'">
         </div>
-        <!-- PWA badge -->
+        <!-- PWA badge indicator -->
         <span class="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-[10px] sm:text-xs px-2.5 py-1 rounded-full shadow border-2 border-white flex items-center gap-1">
           <i class="fa-solid fa-cloud-arrow-down"></i> Web App
         </span>
@@ -176,10 +174,9 @@
       </div>
     </div>
 
-    <!-- Call to Actions & Browser Enforcement Card -->
     <div class="mt-6 bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5">
       
-      <!-- Browser Status Indicator -->
+      <!-- Current Browser Detection Bar -->
       <div id="browserStatusIndicator" class="flex items-center justify-between text-xs sm:text-sm mb-3.5 px-1 font-medium">
         <span class="text-slate-500 flex items-center gap-1.5">
           <i class="fa-solid fa-compass"></i> เบราว์เซอร์ปัจจุบัน:
@@ -189,14 +186,14 @@
         </span>
       </div>
 
-      <!-- Action 1: Open directly in Chrome (Enforced/Highlighted) -->
+      <!-- Action: Open and Install via Google Chrome -->
       <button id="btnOpenChrome" onclick="handleOpenChrome()" 
               class="pulse-glow w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white rounded-2xl font-bold text-base sm:text-lg shadow-lg flex items-center justify-center gap-3 transition-all hover:opacity-95 active:scale-[0.98]">
         <i class="fa-brands fa-chrome text-2xl text-white"></i>
         <span>เปิด & ติดตั้งผ่าน Google Chrome</span>
       </button>
 
-      <!-- Action 2: Direct Web App Link -->
+      <!-- Action 2: Direct Links & Copy Link -->
       <div class="mt-3 grid grid-cols-2 gap-2">
         <a href="https://m-dole-student-app.vercel.app" target="_blank" rel="noopener noreferrer"
            class="py-2.5 px-3 bg-white text-slate-700 border border-slate-200 hover:border-brand-500 rounded-xl font-medium text-xs sm:text-sm text-center flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
@@ -213,7 +210,6 @@
       </div>
     </div>
 
-    <!-- How to Install Guide (3 Simple Steps) -->
     <div class="mt-6 pt-5 border-t border-slate-100">
       <div class="flex items-center justify-between mb-3">
         <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
@@ -222,7 +218,7 @@
         <span class="text-[11px] text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full font-semibold">ไม่ต้องโหลดผ่านสโตร์</span>
       </div>
 
-      <!-- Step Cards -->
+      <!-- Installation Step Cards -->
       <div class="space-y-2.5">
         <!-- Step 1 -->
         <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50/80 border border-slate-100">
@@ -263,11 +259,11 @@
       </div>
     </div>
 
-    <!-- Notification Notice for Students -->
+    <!-- Student Guidance Box -->
     <div class="mt-5 p-3 rounded-xl bg-blue-50/80 border border-blue-200/60 text-[11px] sm:text-xs text-blue-900 flex items-start gap-2">
       <i class="fa-solid fa-circle-info text-blue-600 mt-0.5 shrink-0"></i>
       <div>
-        <strong>สำหรับนักศึกษาใหม่:</strong> เมื่อติดตั้งแอปเสร็จแล้ว สามารถเปิดแอปจากหน้าจอมือถือเพื่อเข้าสู่ระบบ กรอกข้อมูลนักศึกษา ตรวจสอบรายวิชา และผลการเรียนได้ทันที
+        <strong>สำหรับนักศึกษา:</strong> เมื่อติดตั้งแอปเสร็จแล้ว สามารถเปิดแอปจากหน้าจอมือถือเพื่อเข้าสู่ระบบ กรอกข้อมูลนักศึกษา ตรวจสอบรายวิชา และผลการเรียนได้ทันที
       </div>
     </div>
 
@@ -309,7 +305,6 @@
     </div>
   </div>
 
-  <!-- Footer Info -->
   <footer class="text-center text-white/70 text-[11px] sm:text-xs mt-6 mb-2">
     <p>© ศูนย์ส่งเสริมการเรียนรู้ระดับอำเภอเมืองนครราชสีมา (สกร. อ.เมืองนครราชสีมา)</p>
     <p class="mt-0.5 text-white/50">M-DOLE Learning System • รองรับทุกอุปกรณ์สมาร์ตโฟน</p>
@@ -319,7 +314,7 @@
     const APP_URL = "https://m-dole-student-app.vercel.app";
     const APP_DOMAIN = "m-dole-student-app.vercel.app";
 
-    // Detect User Agent and Browser
+    // Detect User Agent and Browser environment
     function detectEnvironment() {
       const ua = navigator.userAgent || navigator.vendor || window.opera;
       const isAndroid = /android/i.test(ua);
@@ -329,7 +324,7 @@
       const isInstagram = /Instagram/i.test(ua);
       const isInApp = isLine || isFacebook || isInstagram || /MicroMessenger/i.test(ua);
       
-      // Check if Chrome
+      // Check if pure Chrome
       const isChrome = /Chrome/i.test(ua) && !/Edge|Edg|OPR|Opera|SamsungBrowser/i.test(ua);
       
       return {
@@ -341,7 +336,7 @@
       };
     }
 
-    // Initialize UI based on browser detection
+    // Initialize UI status based on environment
     function initBrowserCheck() {
       const env = detectEnvironment();
       const statusTag = document.getElementById('currentBrowserTag');
@@ -364,35 +359,35 @@
       }
     }
 
-    // Logic to force/redirect into Google Chrome
+    // Deep link or redirect directly into Google Chrome
     function handleOpenChrome() {
       const env = detectEnvironment();
 
       if (env.isAndroid) {
-        // Android Intent specifically directing to com.android.chrome package
+        // Android Intent for com.android.chrome package
         const chromeIntent = `intent://${APP_DOMAIN}#Intent;scheme=https;package=com.android.chrome;end`;
         window.location.href = chromeIntent;
 
-        // Fallback timeout in case Chrome app isn't installed or blocked by Webview
+        // Fallback timeout in case intent fails or Chrome is not default
         setTimeout(() => {
           window.location.href = APP_URL;
         }, 1500);
       } else if (env.isIOS) {
-        // iOS Google Chrome URL Scheme (googlechromes://)
+        // iOS Google Chrome URL Scheme
         const iosChromeUrl = `googlechromes://${APP_DOMAIN}`;
         window.location.href = iosChromeUrl;
 
-        // Fallback for iOS Safari
+        // Fallback for iOS
         setTimeout(() => {
           window.location.href = APP_URL;
         }, 1200);
       } else {
-        // Desktop or other devices
+        // Desktop or other environments
         window.open(APP_URL, '_blank');
       }
     }
 
-    // Copy link helper with visual feedback
+    // Copy link helper
     function handleCopyLink() {
       const input = document.createElement('input');
       input.value = APP_URL;
@@ -420,7 +415,7 @@
       }
     }
 
-    // On page load
+    // Window load trigger
     window.onload = function() {
       initBrowserCheck();
     };
