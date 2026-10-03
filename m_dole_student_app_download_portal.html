@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>M-DOLE Student App - ศูนย์ส่งเสริมการเรียนรู้ระดับอำเภอเมืองนครราชสีมา</title>
+  
+  <!-- Favicon & PWA meta -->
+  <meta name="theme-color" content="#1e40af">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="ระบบสารสนเทศและการเรียนรู้สำหรับนักศึกษา M-DOLE สกร.อำเภอเมืองนครราชสีมา ระดับประถม ม.ต้น ม.ปลาย">
+
+  <!-- Google Fonts: Prompt and Sarabun for professional modern Thai typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'sans-serif'],
+            body: ['Sarabun', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+              gold: '#d97706',
+              goldlight: '#fbbf24',
+            }
+          },
+          boxShadow: {
+            'glow': '0 10px 25px -5px rgba(37, 99, 235, 0.4)',
+            'card': '0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 5px 15px -3px rgba(0, 0, 0, 0.04)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      background: radial-gradient(circle at 50% 0%, #1e3a8a 0%, #0f172a 100%);
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .pulse-glow {
+      animation: pulseAnimation 2.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAnimation {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 0 14px rgba(37, 99, 235, 0);
+        transform: scale(1.02);
+      }
+    }
+
+    .badge-shimmer {
+      background-size: 200% auto;
+      background-image: linear-gradient(to right, #2563eb 0%, #60a5fa 50%, #2563eb 100%);
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white flex flex-col justify-between p-3 sm:p-6 md:p-8">
+
+  <!-- Alert Banner if not Chrome or inside In-App Browser -->
+  <div id="browserWarningBanner" class="hidden max-w-xl mx-auto w-full mb-4 animate-bounce">
+    <div class="bg-amber-500 text-white p-3.5 rounded-2xl shadow-xl flex items-center justify-between gap-3 border border-amber-300">
+      <div class="flex items-center gap-2.5">
+        <i class="fa-brands fa-chrome text-2xl text-white"></i>
+        <div class="text-xs sm:text-sm font-medium">
+          <span class="font-bold">แนะนำเปิดใน Google Chrome</span> เพื่อให้สามารถกดปุ่ม "ติดตั้งแอป" ลงมือถือได้
+        </div>
+      </div>
+      <button onclick="handleOpenChrome()" class="bg-white text-amber-700 px-3 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap shadow hover:bg-amber-50 transition active:scale-95">
+        เปิดใน Chrome
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Card Container -->
+  <main class="max-w-xl mx-auto w-full glass-card rounded-3xl p-5 sm:p-8 shadow-card border border-white/60 relative overflow-hidden my-auto">
+    
+    <!-- Decorative top accent background pattern -->
+    <div class="absolute -top-24 -right-24 w-52 h-52 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-52 h-52 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Header / Organization Branding -->
+    <div class="flex items-center justify-center gap-3.5 mb-4 border-b border-slate-100 pb-4">
+      <!-- Organization Logo from user uploaded logo -->
+      <img src="logo สกร.นม.jpg" 
+           alt="ตราสัญลักษณ์ สกร. อำเภอเมืองนครราชสีมา" 
+           class="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full shadow-md border-2 border-brand-100 bg-white p-0.5 shrink-0"
+           onerror="this.src='https://placehold.co/100x100/1e3a8a/ffffff?text=สกร.นม.'">
+      
+      <div class="text-left">
+        <span class="inline-block bg-brand-100 text-brand-800 text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full mb-1">
+          ระบบสารสนเทศทางการศึกษา
+        </span>
+        <h2 class="text-xs sm:text-sm font-bold text-slate-800 leading-tight">
+          ศูนย์ส่งเสริมการเรียนรู้ระดับอำเภอเมืองนครราชสีมา
+        </h2>
+        <p class="text-[11px] sm:text-xs text-slate-500">
+          สำนักงานส่งเสริมการเรียนรู้ประจำจังหวัดนครราชสีมา
+        </p>
+      </div>
+    </div>
+
+    <!-- App Logo & Title Section -->
+    <div class="text-center my-3">
+      <!-- App Icon Image -->
+      <div class="relative inline-block mx-auto mb-3">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden shadow-glow border-4 border-white mx-auto transform transition duration-300 hover:scale-105">
+          <img src="ไอคอน M-DOLE อนุสาวรีย์ไทยสง่างาม-Photoroom.jpg" 
+               alt="M-DOLE Student App Icon" 
+               class="w-full h-full object-cover"
+               onerror="this.src='https://placehold.co/150x150/1e40af/ffffff?text=M-DOLE'">
+        </div>
+        <!-- PWA badge -->
+        <span class="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-[10px] sm:text-xs px-2.5 py-1 rounded-full shadow border-2 border-white flex items-center gap-1">
+          <i class="fa-solid fa-cloud-arrow-down"></i> Web App
+        </span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center justify-center gap-2">
+        <span>M-DOLE Student App</span>
+      </h1>
+      <p class="text-slate-500 text-xs sm:text-sm mt-1">แอปพลิเคชันสำหรับนักศึกษาการเรียนรู้ตลอดชีวิต</p>
+      
+      <!-- Target Levels Badges -->
+      <div class="mt-3.5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+        <span class="text-xs font-semibold text-slate-500 mr-1">ระดับชั้น:</span>
+        <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs px-2.5 py-1 rounded-xl font-medium flex items-center gap-1">
+          <i class="fa-solid fa-graduation-cap text-[10px]"></i> ประถมศึกษา
+        </span>
+        <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2.5 py-1 rounded-xl font-medium flex items-center gap-1">
+          <i class="fa-solid fa-graduation-cap text-[10px]"></i> มัธยมศึกษาตอนต้น
+        </span>
+        <span class="bg-purple-50 text-purple-700 border border-purple-200 text-xs px-2.5 py-1 rounded-xl font-medium flex items-center gap-1">
+          <i class="fa-solid fa-graduation-cap text-[10px]"></i> มัธยมศึกษาตอนปลาย
+        </span>
+      </div>
+    </div>
+
+    <!-- Call to Actions & Browser Enforcement Card -->
+    <div class="mt-6 bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5">
+      
+      <!-- Browser Status Indicator -->
+      <div id="browserStatusIndicator" class="flex items-center justify-between text-xs sm:text-sm mb-3.5 px-1 font-medium">
+        <span class="text-slate-500 flex items-center gap-1.5">
+          <i class="fa-solid fa-compass"></i> เบราว์เซอร์ปัจจุบัน:
+        </span>
+        <span id="currentBrowserTag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-200 text-slate-700">
+          กำลังตรวจสอบ...
+        </span>
+      </div>
+
+      <!-- Action 1: Open directly in Chrome (Enforced/Highlighted) -->
+      <button id="btnOpenChrome" onclick="handleOpenChrome()" 
+              class="pulse-glow w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white rounded-2xl font-bold text-base sm:text-lg shadow-lg flex items-center justify-center gap-3 transition-all hover:opacity-95 active:scale-[0.98]">
+        <i class="fa-brands fa-chrome text-2xl text-white"></i>
+        <span>เปิด & ติดตั้งผ่าน Google Chrome</span>
+      </button>
+
+      <!-- Action 2: Direct Web App Link -->
+      <div class="mt-3 grid grid-cols-2 gap-2">
+        <a href="https://m-dole-student-app.vercel.app" target="_blank" rel="noopener noreferrer"
+           class="py-2.5 px-3 bg-white text-slate-700 border border-slate-200 hover:border-brand-500 rounded-xl font-medium text-xs sm:text-sm text-center flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square text-brand-600"></i> เข้าสู่หน้าเว็บตรง
+        </a>
+        <button onclick="handleCopyLink()" 
+                class="py-2.5 px-3 bg-white text-slate-700 border border-slate-200 hover:border-brand-500 rounded-xl font-medium text-xs sm:text-sm text-center flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
+          <i class="fa-solid fa-copy text-brand-600"></i> คัดลอกลิงก์
+        </button>
+      </div>
+
+      <div id="copyFeedback" class="hidden mt-2 text-center text-xs font-bold text-emerald-600 animate-fade">
+        <i class="fa-solid fa-check-circle"></i> คัดลอกลิงก์สำเร็จแล้ว สามารถนำไปเปิดใน Google Chrome ได้เลย
+      </div>
+    </div>
+
+    <!-- How to Install Guide (3 Simple Steps) -->
+    <div class="mt-6 pt-5 border-t border-slate-100">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
+          <i class="fa-solid fa-mobile-screen text-brand-600"></i> วิธีติดตั้งแอปลงบนหน้าจอมือถือ
+        </h3>
+        <span class="text-[11px] text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full font-semibold">ไม่ต้องโหลดผ่านสโตร์</span>
+      </div>
+
+      <!-- Step Cards -->
+      <div class="space-y-2.5">
+        <!-- Step 1 -->
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50/80 border border-slate-100">
+          <div class="w-6 h-6 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            1
+          </div>
+          <div class="text-xs sm:text-sm text-slate-600">
+            เปิดลิงก์ <strong class="text-slate-800">m-dole-student-app.vercel.app</strong> ด้วยแอป <strong class="text-brand-700"><i class="fa-brands fa-chrome"></i> Google Chrome</strong>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50/80 border border-slate-100">
+          <div class="w-6 h-6 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            2
+          </div>
+          <div class="text-xs sm:text-sm text-slate-600">
+            แตะที่เมนู <strong class="text-slate-800">จุด 3 จุด (⠇)</strong> มุมขวาบนของ Google Chrome
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50/80 border border-slate-100">
+          <div class="w-6 h-6 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            3
+          </div>
+          <div class="text-xs sm:text-sm text-slate-600">
+            เลือกเมนู <strong class="text-brand-700 bg-brand-100/70 px-1.5 py-0.5 rounded">"ติดตั้งแอป"</strong> หรือ <strong class="text-brand-700 bg-brand-100/70 px-1.5 py-0.5 rounded">"เพิ่มลงในหน้าจอหลัก"</strong> ไอคอน M-DOLE จะไปอยู่ที่หน้าจอมือถือทันที
+          </div>
+        </div>
+      </div>
+
+      <!-- iOS / Safari Guide Toggle -->
+      <div class="mt-3.5 text-center">
+        <button onclick="toggleIOSModal()" class="text-xs text-slate-500 hover:text-brand-600 underline font-medium">
+          สำหรับผู้ใช้งาน iPhone / iPad (iOS) คลิกที่นี่
+        </button>
+      </div>
+    </div>
+
+    <!-- Notification Notice for Students -->
+    <div class="mt-5 p-3 rounded-xl bg-blue-50/80 border border-blue-200/60 text-[11px] sm:text-xs text-blue-900 flex items-start gap-2">
+      <i class="fa-solid fa-circle-info text-blue-600 mt-0.5 shrink-0"></i>
+      <div>
+        <strong>สำหรับนักศึกษาใหม่:</strong> เมื่อติดตั้งแอปเสร็จแล้ว สามารถเปิดแอปจากหน้าจอมือถือเพื่อเข้าสู่ระบบ กรอกข้อมูลนักศึกษา ตรวจสอบรายวิชา และผลการเรียนได้ทันที
+      </div>
+    </div>
+
+  </main>
+
+  <!-- iOS Installation Modal -->
+  <div id="iosModal" class="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-slate-800 shadow-2xl relative">
+      <button onclick="toggleIOSModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center mb-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl mx-auto flex items-center justify-center text-xl mb-2">
+          <i class="fa-brands fa-apple"></i>
+        </div>
+        <h4 class="font-bold text-base text-slate-800">วิธีติดตั้งบน iPhone / iPad</h4>
+        <p class="text-xs text-slate-500 mt-0.5">บนระบบ iOS ให้เปิดผ่าน Safari หรือ Chrome</p>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600">
+        <div class="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl">
+          <span class="w-5 h-5 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-[10px] shrink-0">1</span>
+          <span>เปิด Safari หรือ Chrome แล้วไปที่ <strong>m-dole-student-app.vercel.app</strong></span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl">
+          <span class="w-5 h-5 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-[10px] shrink-0">2</span>
+          <span>แตะปุ่มแชร์ <i class="fa-solid fa-arrow-up-from-bracket text-blue-600 mx-1"></i> (Share Button)</span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl">
+          <span class="w-5 h-5 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-[10px] shrink-0">3</span>
+          <span>เลื่อนลงแล้วเลือก <strong class="text-blue-600">"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</strong></span>
+        </div>
+      </div>
+
+      <button onclick="toggleIOSModal()" class="mt-5 w-full py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl">
+        เข้าใจแล้ว
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="text-center text-white/70 text-[11px] sm:text-xs mt-6 mb-2">
+    <p>© ศูนย์ส่งเสริมการเรียนรู้ระดับอำเภอเมืองนครราชสีมา (สกร. อ.เมืองนครราชสีมา)</p>
+    <p class="mt-0.5 text-white/50">M-DOLE Learning System • รองรับทุกอุปกรณ์สมาร์ตโฟน</p>
+  </footer>
+
+  <script>
+    const APP_URL = "https://m-dole-student-app.vercel.app";
+    const APP_DOMAIN = "m-dole-student-app.vercel.app";
+
+    // Detect User Agent and Browser
+    function detectEnvironment() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      const isLine = /Line\//i.test(ua);
+      const isFacebook = /FBAN|FBAV/i.test(ua);
+      const isInstagram = /Instagram/i.test(ua);
+      const isInApp = isLine || isFacebook || isInstagram || /MicroMessenger/i.test(ua);
+      
+      // Check if Chrome
+      const isChrome = /Chrome/i.test(ua) && !/Edge|Edg|OPR|Opera|SamsungBrowser/i.test(ua);
+      
+      return {
+        isAndroid,
+        isIOS,
+        isInApp,
+        isChrome,
+        ua
+      };
+    }
+
+    // Initialize UI based on browser detection
+    function initBrowserCheck() {
+      const env = detectEnvironment();
+      const statusTag = document.getElementById('currentBrowserTag');
+      const warningBanner = document.getElementById('browserWarningBanner');
+
+      if (env.isInApp) {
+        statusTag.textContent = "เปิดในแอป (LINE / Facebook)";
+        statusTag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800";
+        warningBanner.classList.remove('hidden');
+      } else if (env.isChrome) {
+        statusTag.textContent = "Google Chrome (พร้อมติดตั้ง)";
+        statusTag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800";
+      } else if (env.isIOS) {
+        statusTag.textContent = "อุปกรณ์ iOS (Apple)";
+        statusTag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800";
+      } else {
+        statusTag.textContent = "เบราว์เซอร์ทั่วไป";
+        statusTag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800";
+        warningBanner.classList.remove('hidden');
+      }
+    }
+
+    // Logic to force/redirect into Google Chrome
+    function handleOpenChrome() {
+      const env = detectEnvironment();
+
+      if (env.isAndroid) {
+        // Android Intent specifically directing to com.android.chrome package
+        const chromeIntent = `intent://${APP_DOMAIN}#Intent;scheme=https;package=com.android.chrome;end`;
+        window.location.href = chromeIntent;
+
+        // Fallback timeout in case Chrome app isn't installed or blocked by Webview
+        setTimeout(() => {
+          window.location.href = APP_URL;
+        }, 1500);
+      } else if (env.isIOS) {
+        // iOS Google Chrome URL Scheme (googlechromes://)
+        const iosChromeUrl = `googlechromes://${APP_DOMAIN}`;
+        window.location.href = iosChromeUrl;
+
+        // Fallback for iOS Safari
+        setTimeout(() => {
+          window.location.href = APP_URL;
+        }, 1200);
+      } else {
+        // Desktop or other devices
+        window.open(APP_URL, '_blank');
+      }
+    }
+
+    // Copy link helper with visual feedback
+    function handleCopyLink() {
+      const input = document.createElement('input');
+      input.value = APP_URL;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+
+      const feedback = document.getElementById('copyFeedback');
+      feedback.classList.remove('hidden');
+      setTimeout(() => {
+        feedback.classList.add('hidden');
+      }, 4000);
+    }
+
+    // Toggle iOS Instructions Modal
+    function toggleIOSModal() {
+      const modal = document.getElementById('iosModal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    // On page load
+    window.onload = function() {
+      initBrowserCheck();
+    };
+  </script>
+</body>
+</html>
